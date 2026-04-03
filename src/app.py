@@ -45,6 +45,7 @@ activities = {
         "schedule": "Wednesdays, 3:30 PM - 5:00 PM",
         "max_participants": 15,
         "participants": []      
+    }
 }
 
 
@@ -67,9 +68,10 @@ def signup_for_activity(activity_name: str, email: str):
 
     # Get the specific activity
     activity = activities[activity_name]
-    ## Added new validation to check if the activity is already full
+    # Validate activity is not full
     if len(activity["participants"]) >= activity["max_participants"]:
-    # Validate student is not already signed up   
+        raise HTTPException(status_code=400, detail="Activity is full")
+    # Validate student is not already signed up
     if email in activity["participants"]:
         raise HTTPException(status_code=400, detail="Student already signed up for this activity")
     # Validate student email format (simple check)
